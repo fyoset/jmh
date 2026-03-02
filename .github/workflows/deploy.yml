@@ -37,15 +37,46 @@ jobs:
           fi
 
       - name: Flatten build output
+        env:
+          DIST: ${{ steps.dist.outputs.path }}
         run: |
-          DIST="${{ steps.dist.outputs.path }}"
-          # Move _astro/ contents to root and rewrite all references to them
-          if [ -d "$DIST/_astro" ]; then
-            mv "$DIST/_astro/"* "$DIST/"
-            rmdir "$DIST/_astro"
-            find "$DIST" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) \
-              -exec sed -i 's|/_astro/|/|g' {} +
-          fi
+          python3 << 'EOF'
+          import os, shutil
+
+          dist = os.environ['DIST']
+          moves = {}
+
+          for root, dirs, files in os.walk(dist):
+              if root == dist:
+                  continue
+              for f in files:
+                  src = os.path.join(root, f)
+                  rel = os.path.relpath(src, dist)           # e.g. _astro/main.js or event/1.html
+                  flat = rel.replace(os.sep, '-')            # e.g. _astro-main.js or event-1.html
+                  moves[rel] = flat
+
+          for rel, flat in moves.items():
+              os.rename(os.path.join(dist, rel), os.path.join(dist, flat))
+
+          for fname in os.listdir(dist):
+              if not any(fname.endswith(e) for e in ('.html', '.css', '.js')):
+                  continue
+              path = os.path.join(dist, fname)
+              content = open(path, encoding='utf-8', errors='ignore').read()
+              for rel, flat in moves.items():
+                  rel_fwd = rel.replace(os.sep, '/')
+                  rel_no_ext = os.path.splitext(rel_fwd)[0]
+                  content = content.replace('/' + rel_fwd, '/' + flat)
+                  content = content.replace('/' + rel_no_ext + '"', '/' + flat + '"')
+                  content = content.replace('/' + rel_no_ext + "'", '/' + flat + "'")
+              open(path, 'w', encoding='utf-8').write(content)
+
+          for entry in os.listdir(dist):
+              if os.path.isdir(os.path.join(dist, entry)):
+                  shutil.rmtree(os.path.join(dist, entry))
+
+          print('Flattened:', sorted(moves.values()))
+          EOF
 
       - name: Deploy to production branch
         uses: peaceiris/actions-gh-pages@v4
