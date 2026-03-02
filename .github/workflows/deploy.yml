@@ -36,6 +36,17 @@ jobs:
             echo "path=dist" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Flatten build output
+        run: |
+          DIST="${{ steps.dist.outputs.path }}"
+          # Move _astro/ contents to root and rewrite all references to them
+          if [ -d "$DIST/_astro" ]; then
+            mv "$DIST/_astro/"* "$DIST/"
+            rmdir "$DIST/_astro"
+            find "$DIST" -type f \( -name "*.html" -o -name "*.css" -o -name "*.js" \) \
+              -exec sed -i 's|/_astro/|/|g' {} +
+          fi
+
       - name: Deploy to production branch
         uses: peaceiris/actions-gh-pages@v4
         with:

@@ -7,4 +7,7 @@ import svelte from "@astrojs/svelte";
 export default defineConfig({
   root: "./src",
   integrations: [tailwind(), svelte()],
+  build: {
+    format: "file",
+  },
 });
