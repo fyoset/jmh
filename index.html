@@ -9,44 +9,46 @@
 <body>
 
   <nav id="nav">
-    <a href="#" class="logo">JMH</a>
+    <a href="#" class="logo" data-i18n="logo">JMH</a>
     <button class="nav-toggle" id="navToggle" aria-label="Menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <ul class="nav-links" id="navLinks">
-      <li><a href="#band">The Band</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#band" data-i18n="navBand">The Band</a></li>
+      <li><a href="#contact" data-i18n="navContact">Contact</a></li>
     </ul>
+    <button class="lang-toggle" id="langToggle">RU</button>
   </nav>
 
   <section id="hero">
     <div class="hero-content">
-      <h1>JMH</h1>
-      <p class="tagline">Rocks</p>
+      <h1 data-i18n="title">JMH</h1>
+      <p class="tagline" data-i18n="tagline">Rocks</p>
     </div>
   </section>
 
   <section id="band">
-    <p class="section-label">The Band</p>
+    <p class="section-label" data-i18n="bandLabel">The Band</p>
     <div class="members">
       <div class="member">
-        <div class="member-initial">Edward</div>
-        <h3>Guitar</h3>
+        <div class="member-initial" data-i18n="memberEdward">Edward</div>
+        <h3 data-i18n="guitar">Guitar</h3>
       </div>
       <div class="member">
         <div class="member-initial">DDR</div>
-        <h3>Keys &amp; Vocals</h3>
+        <h3 data-i18n="keys">Keys &amp; Vocals</h3>
       </div>
       <div class="member">
-        <div class="member-initial">Dino</div>
-        <h3>Drums</h3>
+        <div class="member-initial" data-i18n="memberDino">Dino</div>
+        <h3 data-i18n="drums">Drums</h3>
       </div>
     </div>
   </section>
 
   <footer id="contact">
-    <p class="footer-logo">JMH</p>
-    <p class="footer-copy">&copy; 2026 JMH</p>
+    <p class="footer-logo" data-i18n="logo">JMH</p>
+    <p class="footer-email"><a href="mailto:info@jmh.rocks">info@jmh.rocks</a></p>
+    <p class="footer-copy" data-i18n="copyright">&copy; 2026 JMH</p>
   </footer>
 
   <script src="script.js"></script>

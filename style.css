@@ -61,6 +61,24 @@ body {
 
 .nav-links a:hover { color: var(--text); }
 
+.lang-toggle {
+  background: none;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  transition: color 0.2s, border-color 0.2s;
+  text-transform: uppercase;
+  font-family: inherit;
+}
+
+.lang-toggle:hover {
+  color: var(--text);
+  border-color: var(--text);
+}
+
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -183,6 +201,22 @@ footer {
   margin-bottom: 0.5rem;
 }
 
+.footer-email {
+  margin-bottom: 0.5rem;
+}
+
+.footer-email a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  transition: color 0.2s;
+}
+
+.footer-email a:hover {
+  color: var(--accent);
+}
+
 .footer-copy {
   font-size: 0.75rem;
   color: var(--muted);
@@ -192,7 +226,8 @@ footer {
 /* MOBILE */
 
 @media (max-width: 640px) {
-  .nav-toggle { display: flex; }
+  .nav-toggle { display: flex; order: 2; }
+  .lang-toggle { order: 1; margin-left: auto; margin-right: 1rem; }
 
   .nav-links {
     position: fixed;
